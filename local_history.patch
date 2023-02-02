@@ -1,0 +1,836 @@
+Index: src/jsMain/kotlin/page2.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/jsMain/kotlin/page2.kt b/src/jsMain/kotlin/page2.kt
+--- a/src/jsMain/kotlin/page2.kt	
++++ b/src/jsMain/kotlin/page2.kt	(date 1657734873911)
+@@ -1,795 +1,53 @@
+-
+-import csstype.*
+-import csstype.AlignContent.Companion.center
+-import csstype.EmptyCells.Companion.show
+-import csstype.FontWeight.Companion.bold
+-import csstype.Length.Companion.auto
+-import gotoPage1
+-import kotlinx.browser.document
+-import kotlinx.browser.window
+-import org.w3c.dom.HTMLElement
+-import org.w3c.dom.HTMLImageElement
+-import org.w3c.dom.HTMLInputElement
+-import org.w3c.dom.Image
+-import react.*
++import csstype.px
++import csstype.rgb
++import react.FC
++import react.Props
+ import react.css.css
+-import react.dom.html.InputMode
+ import react.dom.html.InputType
+-import react.dom.html.ReactHTML
+-import react.dom.html.ReactHTML.a
+ import react.dom.html.ReactHTML.div
+-import react.dom.html.ReactHTML.form
+-import react.dom.html.ReactHTML.img
+ import react.dom.html.ReactHTML.input
+-import react.dom.html.ReactHTML.label
+-import react.dom.html.ReactHTML.p
+-import react.dom.html.ReactHTML.picture
+-import react.dom.html.ReactHTML.span
+-import react.dom.html.ReactHTML.textarea
+-import react.dom.html.ReactHTML.video
+-import react.dom.svg.ReactSVG.line
+-import kotlin.math.round
+-
+-val VIEWS_LIST = listOf("Front", "Back", "Right", "Left")
++import react.useState
+ 
+ //appearance of the webpage is determined below using the React Framework
+ external interface Page2Props : Props {
+-    var height: Int
+-    var height2: Int
+-    var chest: Double
+-    var waist: Double
+-    var hips: Double
+-    var gender: String
+-    var system: String
+-    var fullsize: String
+-    var mainsize: String
+-    var tsize: String
+-
+-    var imgnumber: Int
+-    var imgview: Int
+-    var views: IntArray
+-    var alertMsg: String
++    var name: String
+ }
+-
+-//var fullsize = ""
+-//var mainsize = ""
+-//var tsize = ""
+-var old_tsize = ""
+-
+-object LABELS {
+-    val SIZES_DICT = mapOf(
+-        "L" to "Large",
+-        "M" to "Medium",
+-        "S" to "Small",
+-        "XL" to "XL",
+-        "XXL" to "XXL",
+-        "XXXL" to "XXXL",
+-        "XS" to "XS"
+-    )
+-}
+-
+-public val Page2 = FC<Page2Props> { props ->
+-    var heightM by useState(props.height)
+-    //var height2 by useState(props.height)
+-    var chestM by useState(props.chest)
+-    var waistM by useState(props.waist)
+-    var hipsM by useState(props.hips)
+-    var gender by useState(props.gender)
+-    var system by useState(props.system)
+-    var fullsize by useState(props.fullsize)
+-    var mainsize by useState(props.mainsize)
+-    var tsize by useState(props.tsize)
+-
+-    var imgnumber by useState(props.imgnumber)
+-    var imgview  by useState(props.imgview)
+-    var views by useState(props.views)
+-    var alertMsg by useState(props.alertMsg)
+-
+-    //header block
+-    div {
+-        css {//big bg color
+-            paddingLeft = 8.pct
+-            paddingRight = 8.pct
+-            paddingTop = 1.pct
+-            paddingBottom = 1.pct
+-            backgroundColor = rgb(23, 58, 38)
+-            color = rgb(255, 255, 255)
+-
+-            display = Display.flex
+-            flexDirection = FlexDirection.row
+-            columnGap = 5.pct
+-        }
+ 
+-        div {
+-            css {
+-                display = Display.block
+-                marginTop = auto
+-                marginBottom = auto
+-                //alignContent = AlignContent.center
+-                justifyContent = JustifyContent.center
+-                width = 7.5.pct
+-                //backgroundColor = rgb(255, 255, 255)
+-            }
+-            img {
+-                css {//big bg color
+-                    //width = 58.px
+-                    //height = 58.px
+-                    width = 7.5.vh
+-                    height = 7.5.vh
+-                }
+-                //src = "https://irp-cdn.multiscreensite.com/d8d53c44/dms3rep/multi/SaskatchewanRattlersIcon.png"
+-                src = "http://perfitdigi.top/Rattlers_Images/rattlers_logo.png"
+-                alt = "Logo not found"
+-            }
+-        }
+-
+-        div {
+-            css {
+-                display = Display.block
+-                marginTop = auto
+-                marginBottom = auto
+-                justifyContent = JustifyContent.center
+-                width = 80.pct
+-            }
+-
+-            p {
+-                css {
+-                    marginLeft = 10.pct
+-                    //fontSize = 20.px
+-                    fontSize = SizeConstants.FS1
+-                    textAlign = TextAlign.center
+-                    textJustify = TextJustify.auto
+-                }
+-                +"Welcome to the future of retail. We are so excited to have you here trying our technology."
+-            }
+-        }
+-    }
+-
+-    //Main block
++val Page2 = FC<Page2Props> { props ->
++    var name by useState(props.name)
+     div {
+         css {
+-
+-            if (window.matchMedia(windowMatchMediaMaxWidth(SizeConstants.MAX_SCREEN_WIDTH)).matches) {
+-                // Viewport is less or equal to 700 pixels wide
+-                display = Display.flex
+-                flexDirection = FlexDirection.column
+-                rowGap = 20.pct
+-                paddingLeft = 2.pct
+-                paddingRight = 2.pct
+-
+-            }
+-            else {
+-                // Viewport is greater than 700 pixels wide
+-                display = Display.flex
+-                flexDirection = FlexDirection.row
+-                columnGap = 10.pct
+-                paddingLeft = 8.pct
+-                paddingRight = 8.pct
+-            }
+-
+-            //fontSize = 20.px
+-            fontSize = SizeConstants.FS2
+-            paddingTop = 2.pct
+-            paddingBottom = 2.pct
+-
++            padding = 5.px
++            backgroundColor = rgb(8, 97, 22)
++            color = rgb(56, 246, 137)
+         }
+-
+-        //console.log("image number = $imgnumber")
+-
+-        val gen2: String
+-        if (gender == "female")
+-            gen2 = "women"
+-        else gen2 = "men"
+-
+-        //Back button - manenquin - tee - Msg
+-        div {
+-            css {
+-                //paddingLeft = 8.pct
+-                //paddingRight = 8.pct
+-                display = Display.flex
+-                flexDirection = FlexDirection.column
+-                rowGap = 10.pct
+-
+-                if (window.matchMedia(windowMatchMediaMaxWidth(SizeConstants.MAX_SCREEN_WIDTH)).matches)
+-                    width = 100.pct
+-                else width = 50.pct
+-
+-                //backgroundColor = rgb(0, 255, 0)
+-            }
+-
+-            //Back button - manenquin - tee
+-            div {
+-                css {
+-                    //paddingLeft = 8.pct
+-                    //paddingRight = 8.pct
+-                    display = Display.flex
+-                    flexDirection = FlexDirection.row
+-
+-                    if (window.matchMedia(windowMatchMediaMaxWidth(SizeConstants.MAX_SCREEN_WIDTH)).matches)
+-                        columnGap = 5.pct
+-                    else columnGap = 10.pct
+-
+-                }
+-
+-                //Back button
+-                div {
+-                    input {
+-                        css {
+-                            //fontSize = 20.px
+-                            fontSize = SizeConstants.FS2
+-                            fontWeight = bold
+-                            backgroundColor = rgb(23, 58, 38)
+-                            color = rgb(255, 255, 255)
+-                            borderRadius = 3.px
+-                            padding = 8.px
+-                            borderWidth = 1.px
+-                            //height = 32.px
+-                            //width = 90.px
+-                            //position = Position.relative
+-                            //bottom = -342.px //-342.px //-300.px
+-                        }
+-                        type = InputType.button
+-                        value = "❮ Back"  //«
+-                        //value = "<< Back to home page"
+-                        onClick = { //event ->
+-
+-                            var ht: Int
+-                            var ht2: Int
+-                            var ch: Double
+-                            var wa: Double
+-                            var hp: Double
+-
+-                            //Conversion cm to ft/in
+-                            if (system == "imperial") {
+-
+-                                //Round to next int
+-                                var hfoot = (heightM / 30.48).toInt()
+-                                var hinch = round((heightM / 30.48 - hfoot) * 12).toInt()
+-
+-                                ht = hfoot
+-                                ht2 = hinch
+-
+-                                if (ht == 4 && ht2 == 12) {
+-                                    ht = 5
+-                                    ht2 = 0
+-                                }
+-
+-                                //Round to x.5
+-                                ch = round(chestM * 10 / 2.54 / 5).toDouble() / 10 * 5
+-                                wa = round(waistM * 10 / 2.54 / 5).toDouble() / 10 * 5
+-                                hp = round(hipsM * 10 / 2.54 / 5).toDouble() / 10 * 5
+-
+-                            }
+-                            else {
+-                                ht = heightM
+-                                ht2 = 0
+-                                ch = (chestM * 10 / 1.0).toInt().toDouble() / 10
+-                                wa = (waistM * 10 / 1.0).toInt().toDouble() / 10
+-                                hp = (hipsM * 10 / 1.0).toInt().toDouble() / 10
+-
+-                            }
+-
+-                            //console.log("going to page 1")
+-                            //console.log("$gender, $system, $ht, $ht2, $ch, $wa, $hp")
+-                            gotoPage1(gender, system, ht, ht2, ch, wa, hp)
+-                        }
+-                    }
+-                }
+-
+-                //Mannequin - Tee size
+-                div {
+-                    css {
+-                        display = Display.flex
+-                        flexDirection = FlexDirection.column
+-                        rowGap = 20.pct
+-                    }
+-
+-                    //Mannequin
+-                    div {
+-                        p {
+-                            css {
+-                                fontWeight = bold
+-                            }
+-                            +"Mannequin measurements"
+-                        }
+-
+-                        var unitsystem = system
+-                        val man_meas = extractMannequinMeas(mansize = fullsize, usystem = unitsystem, gen = gender)
+-
+-                        div {
+-                            p {
+-                                var hfoot = man_meas[0].toInt()
+-                                var hinch = 0
+-                                if (system == "metric")
+-                                    +"Height = ${man_meas[0]} cm"
+-                                else {
+-                                    hfoot = (man_meas[0] / 30.48).toInt()
+-                                    hinch = round((man_meas[0] / 30.48 - hfoot) * 12).toInt()
+-                                    +"Height = ${hfoot}' ${hinch}''"
+-                                }
+-                            }
+-                            p {
+-                                if (system == "metric")
+-                                    +"Chest ${" "} = ${man_meas[1]} cm"
+-                                else +"Chest ${" "} = ${man_meas[1]}''"
+-                            }
+-                            p {
+-                                if (system == "metric")
+-                                    +"Waist ${" "} = ${man_meas[2]} cm"
+-                                else +"Waist ${" "} = ${man_meas[2]}''"
+-                            }
+-                            p {
+-                                if (system == "metric")
+-                                    +"Hips ${"  "} = ${man_meas[3]} cm"
+-                                else +"Hips ${"  "} = ${man_meas[3]}''"
+-                            }
+-                        }
+-                    }
+-
+-                    //T-shirt
+-                    div {
+-                            css {
+-                                //padding = 5.px
+-                                marginTop = 10.pct
+-                                display = Display.flex
+-                                flexDirection = FlexDirection.row
+-                                //columnGap = 10.pct
+-
+-
+-                                if (window.matchMedia(windowMatchMediaMaxWidth(SizeConstants.MAX_SCREEN_WIDTH)).matches)
+-                                    marginRight = 5.px
+-                                else marginRight = 20.px
+-                            }
+-
+-                            p {
+-                                css {
+-                                    //marginTop = 14.px
+-                                    marginRight = 20.px
+-                                    fontWeight = bold
+-                                    textAlign = TextAlign.left
+-                                    //backgroundColor = rgb(23, 58, 38)
+-                                }
+-                                +"T-shirt size"
+-                            }
+-
+-                            //minus button
+-                            img {
+-                                css {
+-                                    //width = 20.px
+-                                    //height = 30.px
+-                                    marginTop = 2.pct
+-                                    width = 2.2.vh
+-                                    height = 3.4.vh
+-                                    //backgroundColor = rgb(255, 0, 0)
+-                                }
+-                                id = "left"
+-                                src = "https://perfitdigi.top/Rattlers_Images/arrows/arrowLeft.png"
+-                                //src = "https://perfitdigi.top/Rattlers_Images/arrows/arrow-ios-back-svgrepo-com.svg"
+-                                alt = "Arrow Left is not available"
+-
+-                                onClick = { //event ->
+-                                    //tsize = "(1 size down)"
+-                                    var aux_tsize = find_newpath(gender, fullsize, tsize, "down")
+-                                    if (aux_tsize != "none") {
+-                                        tsize = aux_tsize
+-                                        val labelMsg = document.getElementById("labelmsg") as HTMLElement
+-                                        labelMsg.style.padding = "0.px"
+-                                        labelMsg.style.backgroundColor = "rgb(255, 255, 255)"
+-                                        alertMsg = ""
+-                                        //imgnumber -= 1
+-                                    }
+-                                    else {
+-                                        val labelMsg = document.getElementById("labelmsg") as HTMLElement
+-                                        labelMsg.style.padding = "8.px"
+-                                        labelMsg.style.backgroundColor = "rgb(255, 200, 100)"
+-                                        alertMsg =
+-                                            "⚠ Sorry, sizes smaller than ${LABELS.SIZES_DICT[tsize]} are not available either for this t-shirt model or mannequin."
+-                                    }
+-                                }
+-
+-                            }
+-
+-                            p {
+-                                css {
+-                                    //marginTop = 14.px
+-                                    //marginBottom = 5.px
+-                                    width = 90.px
+-/*                      borderWidth = 0.px
+-                backgroundColor = rgb(255, 255, 255)*/
+-                                    fontWeight = bold
+-                                    textAlign = TextAlign.center
+-
+-                                }
+-                                +"${LABELS.SIZES_DICT[tsize]}"
+-                            }
+-
+-                            //plus button
+-                            img {
+-                                css {
+-                                    //width = 20.px
+-                                    //height = 30.px
+-                                    //padding = 2.px
+-                                    marginTop = 2.pct
+-                                    width = 2.2.vh
+-                                    height = 3.4.vh
+-                                }
+-                                id = "plus"
+-                                src = "https://perfitdigi.top/Rattlers_Images/arrows/arrowRight.png"
+-                                alt = "Arrow Plus is not available"
+-
+-                                onClick = { //event ->
+-                                    //tsize = "(1 size up)"
+-                                    var aux_tsize = find_newpath(gender, fullsize, tsize, "up")
+-                                    if (aux_tsize != "none") {
+-                                        tsize = aux_tsize
+-                                        val labelMsg = document.getElementById("labelmsg") as HTMLElement
+-                                        labelMsg.style.padding = "0.px"
+-                                        labelMsg.style.backgroundColor = "rgb(255, 255, 255)"
+-                                        alertMsg = ""
+-                                        //imgnumber += 1
+-                                    }
+-                                    else {
+-                                        val labelMsg = document.getElementById("labelmsg") as HTMLElement
+-                                        labelMsg.style.padding = "8.px"
+-                                        labelMsg.style.backgroundColor = "rgb(255, 200, 100)"
+-                                        alertMsg =
+-                                            "⚠ Sorry, sizes bigger than ${LABELS.SIZES_DICT[tsize]} are not available either for this t-shirt model or mannequin."
+-                                    }
+-                                }
+-
+-                            }
+-
+-                        }
+-
+-                }
+-
+-            }
+-
+-            //Message if the size is not available
+-            div {
+-                css {
+-                    id = "divlabelmsg"
+-                    //padding = 8.px
+-                }
+-                p {
+-                    css {
+-                        fontSize = 18.px
+-                        lineHeight = 200.pct
+-                        //width = 300.px
+-                        border = LineStyle.solid
+-                        borderWidth = 0.px
+-                        borderColor = rgb(204, 51, 0)
+-                        borderRadius = 5.px
+-                        //textAlign = TextAlign.center
+-                        backgroundColor = rgb(255, 255, 255)
+-                        //backgroundColor = rgb(255, 200, 100)
+-                        color = rgb(150, 51, 0)
+-                        padding = 8.px
+-                        textAlign = TextAlign.left
+-                        textJustify = TextJustify.auto
+-                    }
+-                    id = "labelmsg"
+-
+-                    + "$alertMsg"
+-                }
+-            }
+-
+-        }
+-
+-        //Images
+-        div {
+-            css {
+-                //paddingLeft = 8.pct
+-                //paddingRight = 8.pct
+-                display = Display.flex
+-                flexDirection = FlexDirection.row
+-                columnGap = 10.pct
+-
+-                if (window.matchMedia(windowMatchMediaMaxWidth(SizeConstants.MAX_SCREEN_WIDTH)).matches)
+-                    width = 100.pct
+-                else width = 50.pct
+-
+-                //backgroundColor = rgb(0, 255, 0)
+-            }
+-
+-            //Small views - Main View
+-            div {
+-                css {
+-                    //paddingLeft = 8.pct
+-                    //paddingRight = 8.pct
+-                    display = Display.flex
+-                    flexDirection = FlexDirection.column
+-                    float = Float.left
+-                    rowGap = 10.pct
+-                    width = 13.pct
+-                }
+-
+-                //Small views and Up-Down buttons
+-                div {
+-                    css {
+-                        display = Display.flex
+-                        flexDirection = FlexDirection.column
+-                        padding = 1.pct
+-                        //marginLeft = 4.pct
+-                        //marginTop = 2.px
+-                    }
+-
+-                    //Button UP
+-                    div {
+-                        css {
+-                            display = Display.block
+-                            marginLeft = auto
+-                            marginRight = auto
+-                            marginBottom = 4.px
+-                            justifyContent = JustifyContent.center
+-                            //width = 70.pct
+-                        }
+-
+-                        img {
+-                            css {
+-                                //width = 30.px
+-                                //height = 20.px
+-                                //padding = 2.px
+-                                width = 3.4.vh
+-                                height = 2.2.vh
+-                            }
+-                            id = "upphoto"
+-                            src =
+-                                "https://perfitdigi.top/Rattlers_Images/arrows/arrowUp.png"
+-                            alt = "Arrow Up is not available"
+-
+-                            onClick = { //event ->
+-
+-                                val aux = updateMainView(curr_view = imgview, direct_img = "left")
+-                                imgview = aux
+-
+-                                for (v in VIEWS_LIST) {
+-                                    val imgv = document.getElementById(v) as HTMLElement
+-                                    imgv.style.backgroundColor = "rgb(255, 255, 255)"
+-                                }
+-                                val imgv = document.getElementById(VIEWS_LIST[aux]) as HTMLElement
+-                                imgv.style.backgroundColor = "rgb(23, 58, 38)"
+-
+-                            }
+-
+-                        }
+-                    }
+-
+-                    //Photos
+-                    img {
+-                        css {
+-                            //width = 70.px
+-                            padding = 3.px
+-                            /*                    border = LineStyle.solid
+-                    borderWidth = 3.px
+-                    borderColor = rgb(23, 58, 38)*/
+-                            backgroundColor = rgb(23, 58, 38)
+-                            marginBottom = 5.px
+-                        }
+-                        id = "Front"
+-                                //src = "https://randomuser.me/api/portraits/${gen2}/${imgnumber + views[0]}.jpg"
+-                            ?: throw IllegalStateException()
+-                        src =
+-                            "https://perfitdigi.top/Rattlers_Images/${gender}/${LABELS.SIZES_DICT[mainsize]}/${fullsize}_${tsize}/Front.png"
+-                        alt = "Mannequin ${LABELS.SIZES_DICT[mainsize]}/T-shirt ${mainsize} not available"
+-
+-                        onClick = {
+-                            //imgnumber += 1
+-                            imgview = 0
+-
+-                            for (v in VIEWS_LIST) {
+-                                val imgv = document.getElementById(v) as HTMLElement
+-                                imgv.style.backgroundColor = "rgb(255, 255, 255)"
+-                            }
+-                            val imgv = document.getElementById(VIEWS_LIST[0]) as HTMLElement
+-                            imgv.style.backgroundColor = "rgb(23, 58, 38)"
+-                        }
+-                    }
+-
+-                    img {
+-                        css {
+-                           //width = 70.px
+-                            padding = 3.px
+-                            /*                    border = LineStyle.solid
+-                    borderWidth = 1.px
+-                    borderColor = rgb(23, 58, 38)*/
+-                            marginBottom = 4.px
+-
+-                        }
+-                        id = "Back"
+-                                //src = "https://randomuser.me/api/portraits/${gen2}/${imgnumber + views[1]}.jpg"
+-                            ?: throw IllegalStateException()
+-                        src =
+-                            "https://perfitdigi.top/Rattlers_Images/${gender}/${LABELS.SIZES_DICT[mainsize]}/${fullsize}_${tsize}/Back.png"
+-                        alt = "Mannequin ${LABELS.SIZES_DICT[mainsize]}/T-shirt ${mainsize} not available"
+-
+-                        onClick = {
+-                            //imgnumber += 1
+-                            imgview = 1
+-
+-                            for (v in VIEWS_LIST) {
+-                                val imgv = document.getElementById(v) as HTMLElement
+-                                imgv.style.backgroundColor = "rgb(255, 255, 255)"
+-                            }
+-                            val imgv = document.getElementById(VIEWS_LIST[1]) as HTMLElement
+-                            imgv.style.backgroundColor = "rgb(23, 58, 38)"
+-                        }
+-                    }
+-
+-                    img {
+-                        css {
+-                            //width = 70.px
+-                            padding = 3.px
+-                            /*                    border = LineStyle.solid
+-                    borderWidth = 1.px
+-                    borderColor = rgb(23, 58, 38)*/
+-                            marginBottom = 4.px
+-                        }
+-                        id = "Right"
+-                                //src = "https://randomuser.me/api/portraits/${gen2}/${imgnumber + views[2]}.jpg"
+-                            ?: throw IllegalStateException()
+-                        src =
+-                            "https://perfitdigi.top/Rattlers_Images/${gender}/${LABELS.SIZES_DICT[mainsize]}/${fullsize}_${tsize}/Right.png"
+-                        alt = "Mannequin ${LABELS.SIZES_DICT[mainsize]}/T-shirt ${mainsize} not available"
+-
+-                        onClick = {
+-                            //imgnumber += 1
+-                            imgview = 2
+-
+-                            for (v in VIEWS_LIST) {
+-                                val imgv = document.getElementById(v) as HTMLElement
+-                                imgv.style.backgroundColor = "rgb(255, 255, 255)"
+-                            }
+-                            val imgv = document.getElementById(VIEWS_LIST[2]) as HTMLElement
+-                            imgv.style.backgroundColor = "rgb(23, 58, 38)"
+-                        }
+-                    }
+-
+-                    img {
+-                        css {
+-                            //width = 70.px
+-                            padding = 3.px
+-                            /*                    border = LineStyle.solid
+-                    borderWidth = 1.px
+-                    borderColor = rgb(23, 58, 38)*/
+-                            marginBottom = 2.px
+-                        }
+-                        id = "Left"
+-                                //src = "https://randomuser.me/api/portraits/${gen2}/${imgnumber + views[3]}.jpg"
+-                            ?: throw IllegalStateException()
+-                        src =
+-                            "https://perfitdigi.top/Rattlers_Images/${gender}/${LABELS.SIZES_DICT[mainsize]}/${fullsize}_${tsize}/Left.png"
+-                        alt = "Mannequin ${LABELS.SIZES_DICT[mainsize]}/T-shirt ${mainsize} not available"
+-
+-                        onClick = {
+-                            //imgnumber += 1
+-                            imgview = 3
+-
+-                            for (v in VIEWS_LIST) {
+-                                val imgv = document.getElementById(v) as HTMLElement
+-                                imgv.style.backgroundColor = "rgb(255, 255, 255)"
+-                            }
+-                            val imgv = document.getElementById(VIEWS_LIST[3]) as HTMLElement
+-                            imgv.style.backgroundColor = "rgb(23, 58, 38)"
+-
+-                        }
+-                    }
+-
+-                    //Button Down
+-                    div {
+-                        css {
+-                            display = Display.block
+-                            marginLeft = auto
+-                            marginRight = auto
+-                            marginBottom = 4.px
+-                            justifyContent = JustifyContent.center
+-                            //width = 70.pct
+-                        }
+-
+-                        img {
+-                            css {
+-                                //width = 30.px
+-                                //height = 20.px
+-                                //padding = 2.px
+-                                width = 3.4.vh
+-                                height = 2.2.vh
+-                            }
+-                            id = "downphoto"
+-                            src =
+-                                "https://perfitdigi.top/Rattlers_Images/arrows/arrowDown.png"
+-                            alt = "Arrow Down is not available"
+-
+-                            onClick = { //event ->
+-
+-                                val aux = updateMainView(curr_view = imgview, direct_img = "right")
+-                                imgview = aux
+-
+-                                for (v in VIEWS_LIST) {
+-                                    val imgv = document.getElementById(v) as HTMLElement
+-                                    imgv.style.backgroundColor = "rgb(255, 255, 255)"
+-                                }
+-                                val imgv = document.getElementById(VIEWS_LIST[aux]) as HTMLElement
+-                                imgv.style.backgroundColor = "rgb(23, 58, 38)"
+-                            }
+-                        }
+-
+-                    }
+-                }
+-            }
+-
+-            //Main view
+-            div {
+-                css {
+-                    padding = 1.pct
+-                    display = Display.block
+-                    margin = auto
+-                    justifyContent = JustifyContent.center
+-                    width = 80.pct
+-                }
+-                img {
+-                    css {
+-/*                        if (window.matchMedia(windowMatchMediaMaxWidth(SizeConstants.MAX_SCREEN_WIDTH)).matches)
+-                            maxWidth = 350.px  //width = 80.pct
+-                        else maxWidth = 348.px  //width = 130.pct*/
+-
+-                        if (window.matchMedia(windowMatchMediaMaxWidth(SizeConstants.MAX_SCREEN_WIDTH)).matches)
+-                            maxWidth = 100.pct
+-                        else maxWidth = 80.pct
+-
+-                        border = LineStyle.solid
+-                        borderWidth = 2.px
+-                        borderColor = rgb(23, 58, 38)
+-                    }
+-                    //src = "https://randomuser.me/api/portraits/${gen2}/${imgnumber + imgview}.jpg" ?: throw IllegalStateException()
+-                    src =
+-                        "https://perfitdigi.top/Rattlers_Images/${gender}/${LABELS.SIZES_DICT[mainsize]}/${fullsize}_${tsize}/${VIEWS_LIST[imgview]}.png"
+-                    alt = "Mannequin ${LABELS.SIZES_DICT[mainsize]}/T-shirt ${mainsize} not available"
+-
+-                }
+-            }
++        +"Hello, $name"
++    }
++    input {
++        css {
++            marginTop = 5.px
++            marginBottom = 5.px
++            fontSize = 14.px
+         }
+-
+-    }
+-
+-    //bottom block
+-    div {
+-        css {
+-            padding = 1.pct
+-            backgroundColor = rgb(23, 58, 38)
+-            textAlign = TextAlign.center
+-        }
++        type = InputType.text
++        value = name
++        onChange = { event ->
++            name = event.target.value
++        }
++    }
+ 
+-        a {
+-            css {
+-                color = rgb(255, 255, 255)
+-                //fontSize = 18.px
+-                fontSize = SizeConstants.FS3
+-            }
+-            href = "http://perfit.digital"
+-            +"Powered by Perfit ™"
+-        }
+-    }
+-
+-}
+-
+-////////////////////////////////////////////////////////////////////
+-//Component for input fields (measurements)
+-private fun ChildrenBuilder.ChangeSizeButton(idval: String, chbutton: String) {
+-
++    //Jesus
+     input {
+         css {
+             marginTop = 5.px
+             marginBottom = 5.px
+-            marginRight = 10.px
+             fontSize = 14.px
+-            fontWeight = bold
+-            borderRadius =  10.px
+         }
+-
+         type = InputType.button
+-        value = "1 Size $chbutton"
+-        id = idval
++        value = "Back to home page"
++        onClick = { event ->
+ 
+-    }
+-}
+-
++            main()
++        }
++    }
++}
+\ No newline at end of file
